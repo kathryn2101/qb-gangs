@@ -19,22 +19,70 @@ AddEventHandler('QBCore:Client:OnPlayerUnload', function()
     isLoggedIn = false
 end)
 
+RegisterNetEvent('qb-gangs:lsmafiaStash')
+AddEventHandler('qb-gangs:lsmafiaStash', function()
+    TriggerServerEvent("inventory:server:OpenInventory", "stash", "lsmafiastash", {
+        maxweight = 4000000,
+        slots = 500,
+    })
+    TriggerEvent("inventory:client:SetCurrentStash", "lsmafiastash")
+end)
+
 RegisterNetEvent('qb-gangs:vagosStash')
 AddEventHandler('qb-gangs:vagosStash', function()
-    TriggerServerEvent("inventory:server:OpenInventory", "stash", "vagosstash_"..QBCore.Functions.GetPlayerData().gang)
-    TriggerEvent("inventory:client:SetCurrentStash", "vagosstash_"..QBCore.Functions.GetPlayerData().gang)
+    TriggerServerEvent("inventory:server:OpenInventory", "stash", "vagosstash", {
+        maxweight = 4000000,
+        slots = 500,
+    })
+    TriggerEvent("inventory:client:SetCurrentStash", "vagosstash")
 end)
 
 RegisterNetEvent('qb-gangs:ballasStash')
 AddEventHandler('qb-gangs:ballasStash', function()
-    TriggerServerEvent("inventory:server:OpenInventory", "stash", "ballasstash_"..QBCore.Functions.GetPlayerData().gang)
-    TriggerEvent("inventory:client:SetCurrentStash", "ballasstash_"..QBCore.Functions.GetPlayerData().gang)
+    TriggerServerEvent("inventory:server:OpenInventory", "stash", "ballasstash", {
+        maxweight = 4000000,
+        slots = 500,
+    })
+    TriggerEvent("inventory:client:SetCurrentStash", "ballasstash")
 end)
 
 RegisterNetEvent('qb-gangs:lostmcStash')
 AddEventHandler('qb-gangs:lostmcStash', function()
-    TriggerServerEvent("inventory:server:OpenInventory", "stash", "lostmcstash_"..QBCore.Functions.GetPlayerData().gang)
-    TriggerEvent("inventory:client:SetCurrentStash", "lostmcstash_"..QBCore.Functions.GetPlayerData().gang)
+    TriggerServerEvent("inventory:server:OpenInventory", "stash", "lostmcstash", {
+        maxweight = 4000000,
+        slots = 500,
+    })
+    TriggerEvent("inventory:client:SetCurrentStash", "lostmcstash")
+end)
+
+CreateThread(function()
+    exports['qb-target']:AddBoxZone("lsmafiaStash", vector3(1403.76, 1144.11, 114.33), 3, 1, { name="lsmafiaStash", heading=270, debugPoly=true, minZ=112.13, maxZ=116.13 },
+        { options = { 
+            { 
+                type = "client",
+                event = "qb-gangs:lsmafiaStash",
+                icon = "fas fa-door-closed", 
+                label = "Access Gang Stash", 
+                gang = "lsmafia" 
+            },
+        }, 
+        distance = 1.5
+    })
+end)
+
+CreateThread(function()
+    exports['qb-target']:AddBoxZone("lsmafiaClothing", vector3(1400.34, 1139.71, 114.33), 1.5, 1, { name="lsmafiaClothing", heading=0, debugPoly=true, minZ=111.33, maxZ=115.33 },
+        { options = { 
+            { 
+                type = "client",
+                event = "qb-clothing:lsmafia",
+                icon = "fas fa-door-closed", 
+                label = "Open Wardrobe", 
+                gang = "lsmafia" 
+            },
+        }, 
+        distance = 1.5
+    })
 end)
 
 CreateThread(function()
@@ -45,14 +93,14 @@ CreateThread(function()
                 event = "qb-clothing:lostmc", 
                 icon = "fas fa-male", 
                 label = "Open Wardrobe", 
-                job = "bltowing"
+                gang = "lostmc"
             },
             { 
                 type = "client",
                 event = "qb-gangs:lostmcStash",
                 icon = "fas fa-door-closed", 
                 label = "Access Gang Stash", 
-                job = "bltowing" 
+                gang = "lostmc" 
             },
         }, 
         distance = 1.5
